@@ -12,4 +12,8 @@ Following are the requirements for the drone:
 2. Resist winds to about 12m/s plus platform motion of up to 2m/s.
 3. Energy reserve for the round-trip.
 4. Failsafes built-in in case of lost comms, discharged battery, or adverse conditions.
-5. x
+
+The justification needs to be provided for all the decisions that are taken, majorly:
+1. VTOL v/s multirotor.
+2. Landing or winch method to deliver the package.
+3. Corrosion protection strategy.
