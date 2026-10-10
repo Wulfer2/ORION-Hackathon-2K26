@@ -1,4 +1,4 @@
-# ORION-Hackathon-2K26
+# ORION-Hackathon-2K26 (Team Varuna)
 This repository contains all the required documents for the hackathon
 
 **SHIP-TO-SHORE and Island Supply Drone**
