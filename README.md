@@ -1,6 +1,8 @@
 # ORION-Hackathon-2K26
 This repository contains all the required documents for the hackathon
 
+Day - 01:
+
 **SHIP-TO-SHORE and Island Supply Drone**
 The problem statement requries our team to design a drone that will be capable of the following:
 1. Deliver 5 kg of supplies between a vessel and an island. (We assume here the task involved would be picking and dropping the payload both to and from the island).
@@ -17,3 +19,9 @@ The justification needs to be provided for all the decisions that are taken, maj
 1. VTOL v/s multirotor.
 2. Landing or winch method to deliver the package.
 3. Corrosion protection strategy.
+
+The branches that have been updated by day 1:
+1. simulations/prashanth
+2. Aerodynamic design constraints
+3. cad models
+4. uav model simulation
