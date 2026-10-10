@@ -1,0 +1,26 @@
+# ORION UAV simulation configuration
+# These are mission inputs, not validated aircraft performance claims.
+
+mission:
+  outbound_distance_m: 15000
+  return_distance_m: 15000
+  cruise_altitude_m: 30
+  cruise_speed_mps: 12
+
+vehicle:
+  model: x500
+  payload_mass_kg: 5
+
+wind:
+  speed_mps: 12
+  direction_deg: 0
+  # Direction convention: 0 degrees = +X, 90 degrees = +Y.
+  # This describes the direction the wind travels toward.
+
+platform:
+  speed_mps: 2
+  heading_deg: 0
+
+simulation:
+  real_time_factor: 1.0
+  max_step_size_s: 0.004

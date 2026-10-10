@@ -1,0 +1,38 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Simulation build products
+build/
+install/
+log/
+*.o
+*.so
+
+# Raw simulation outputs
+simulation/results/raw/
+*.ulg
+*.bag
+*.mcap
+*.mp4
+*.mkv
+*.log
+
+# Archives
+*.tar
+*.tar.gz
+*.tar.xz
+*.zip
+
+# Secrets
+.env
+*.pem
+*.key
+
+# Editor and OS
+.vscode/
+.idea/
+*.swp
+.DS_Store
