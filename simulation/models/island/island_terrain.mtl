@@ -1,0 +1,5 @@
+newmtl IslandGrass
+Ka 0.20 0.30 0.12
+Kd 0.32 0.48 0.20
+Ks 0.04 0.04 0.04
+Ns 12

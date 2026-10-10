@@ -21,7 +21,7 @@
           </box>
         </geometry>
       </collision>
-      <pose>0 0 2 0 0 0</pose>
+      <pose>0 0 0 0 0 0</pose>
       <inertial>
         <mass>10000</mass>
         <inertia>
