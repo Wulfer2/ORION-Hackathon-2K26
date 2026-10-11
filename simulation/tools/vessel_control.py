@@ -5,7 +5,7 @@ import tkinter as tk
 from tkinter import ttk
 
 WORLD = "varuna_mission"
-PARTITION = "varuna_demo"
+PARTITION = "varuna_world_only"
 VESSEL = "supply_vessel"
 PAD = "flat_platform"
 PAD_Z = 2.275
@@ -19,12 +19,12 @@ class VesselControl:
         self.root.geometry("480x500")
         self.root.resizable(False, False)
 
-        self.distance = tk.DoubleVar(value=100.0)
+        self.distance = tk.DoubleVar(value=300.0)
         self.pad_enabled = tk.BooleanVar(value=False)
         self.pad_speed = tk.DoubleVar(value=1.0)
         self.status = tk.StringVar(value="Ready — start Gazebo first")
 
-        self.vessel_x = 100.0
+        self.vessel_x = 300.0
         self.pad_offset = 0.0
         self.direction = 1
         self.last_tick = None
@@ -39,7 +39,7 @@ class VesselControl:
         ).pack(anchor="w", pady=(0, 18))
 
         ttk.Label(frame, text="Vessel distance from origin (m)").pack(anchor="w")
-        self.distance_label = ttk.Label(frame, text="100 m")
+        self.distance_label = ttk.Label(frame, text="300 m")
         self.distance_label.pack(anchor="w")
         ttk.Scale(
             frame, from_=100, to=300, variable=self.distance,
