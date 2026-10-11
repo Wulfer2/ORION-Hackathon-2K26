@@ -28,4 +28,5 @@ The branches that have been updated by day 1:
 
 Day-02:
 We have finished and updated the simulations and CAD models.
+The main branch includes the design report.
 
