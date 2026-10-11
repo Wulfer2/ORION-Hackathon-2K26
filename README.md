@@ -25,3 +25,7 @@ The branches that have been updated by day 1:
 2. Aerodynamic design constraints
 3. cad models
 4. uav model simulation
+
+Day-02:
+We have finished and updated the simulations and CAD models.
+
