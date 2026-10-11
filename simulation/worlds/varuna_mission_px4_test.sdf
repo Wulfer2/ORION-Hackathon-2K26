@@ -1,0 +1,5280 @@
+<?xml version='1.0' encoding='utf-8'?>
+<sdf version="1.9">
+  <world name="varuna_mission">
+    <spherical_coordinates>
+      <surface_model>EARTH_WGS84</surface_model>
+      <world_frame_orientation>ENU</world_frame_orientation>
+      <latitude_deg>8.5241</latitude_deg>
+      <longitude_deg>76.9366</longitude_deg>
+      <elevation>0</elevation>
+    </spherical_coordinates>
+    <physics name="default_physics" type="ode">
+      <max_step_size>0.004</max_step_size>
+      <real_time_factor>1.0</real_time_factor>
+      <real_time_update_rate>250</real_time_update_rate>
+    </physics>
+    <gravity>0 0 -9.8</gravity>
+    <magnetic_field>6e-06 2.3e-05 -4.2e-05</magnetic_field>
+    <atmosphere type="adiabatic"/>
+    <scene>
+      <ambient>0.7 0.7 0.7 1</ambient>
+      <background>0.65 0.78 0.9 1</background>
+      <shadows>true</shadows>
+    </scene>
+    <light name="sun" type="directional">
+      <cast_shadows>true</cast_shadows>
+      <pose>0 0 100 0 0 0</pose>
+      <diffuse>0.9 0.9 0.9 1</diffuse>
+      <direction>-0.4 0.2 -1</direction>
+    </light>
+    <model name="ocean">
+      <static>true</static>
+      <pose>0 0 -0.08 0 0 0</pose>
+      <link name="ocean_link">
+        <visual name="water_surface">
+          <geometry>
+            <cylinder>
+              <radius>500</radius>
+              <length>0.1</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.02 0.18 0.32 1</ambient>
+            <diffuse>0.02 0.18 0.32 1</diffuse>
+            <specular>0.12 0.18 0.22 1</specular>
+            <shininess>35</shininess>
+            <pbr>
+              <metal>
+                <albedo_map>/home/prashant/hack/simulation/models/ocean/materials/textures/water.png</albedo_map>
+                <roughness>0.35</roughness>
+                <metalness>0.05</metalness>
+              </metal>
+            </pbr>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="supply_vessel">
+      <static>true</static>
+      <pose>300.0 0 0 0 0 0</pose>
+      <link name="hull">
+        <collision name="collision">
+          <pose>0 0 1 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>24 24 2</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="hull_visual">
+          <pose>0 0 1 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>24 24 2</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.75 0.75 0.72 1</ambient>
+            <diffuse>0.75 0.75 0.72 1</diffuse>
+          </material>
+        </visual>
+        <visual name="deck">
+          <pose>0 0 2.1 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>22 22 0.25</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.2 0.24 0.28 1</ambient>
+            <diffuse>0.2 0.24 0.28 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <include>
+      <uri>/home/prashant/hack/simulation/models/moving_platform</uri>
+      <name>flat_platform</name>
+      <pose>300 0 2.275 0 0 0</pose>
+    </include>
+    <plugin filename="gz-sim-wind-effects-system" name="gz::sim::systems::WindEffects">
+      <horizontal>
+        <magnitude>12</magnitude>
+        <direction>0</direction>
+      </horizontal>
+    </plugin>
+    <plugin filename="gz-sim-sensors-system" name="gz::sim::systems::Sensors">
+      <render_engine>ogre2</render_engine>
+    </plugin>
+    <plugin filename="gz-sim-physics-system" name="gz::sim::systems::Physics" />
+    <plugin filename="gz-sim-user-commands-system" name="gz::sim::systems::UserCommands" />
+    <plugin filename="gz-sim-scene-broadcaster-system" name="gz::sim::systems::SceneBroadcaster" />
+    <model name="island">
+      <static>true</static>
+      <pose>-45.0 0.0 0 0 0 0</pose>
+      <link name="terrain">
+        <collision name="terrain_collision">
+          <geometry>
+            <mesh>
+              <uri>/home/prashant/hack/simulation/models/island/island_terrain.obj</uri>
+            </mesh>
+          </geometry>
+        </collision>
+        <visual name="terrain_visual">
+          <geometry>
+            <mesh>
+              <uri>/home/prashant/hack/simulation/models/island/island_terrain.obj</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <ambient>0.20 0.32 0.12 1</ambient>
+            <diffuse>0.30 0.48 0.20 1</diffuse>
+            <specular>0.04 0.04 0.04 1</specular>
+            <emissive>0.015 0.025 0.008 1</emissive>
+          </material>
+        </visual>
+        <visual name="landing_pad">
+          <pose>45.0 0 1.84 0 0 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>7</radius>
+              <length>0.08</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.16 0.18 0.20 1</ambient>
+            <diffuse>0.16 0.18 0.20 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_00_trunk">
+          <pose>-12.084 -14.500 3.462 0 0 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.158</radius>
+              <length>4.293</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.34 0.19 0.09 1</ambient>
+            <diffuse>0.34 0.19 0.09 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_00_crown">
+          <pose>-12.084 -14.500 5.758 0 0 0</pose>
+          <geometry>
+            <sphere>
+              <radius>0.32</radius>
+            </sphere>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_00_leaf_00">
+          <pose>-11.018 -14.425 5.402 0 0.003 0.071</pose>
+          <geometry>
+            <box>
+              <size>2.81 0.23 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_00_leaf_01">
+          <pose>-11.397 -13.984 5.371 0 -0.131 0.644</pose>
+          <geometry>
+            <box>
+              <size>2.26 0.20 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_00_leaf_02">
+          <pose>-12.129 -13.493 5.653 0 0.236 1.616</pose>
+          <geometry>
+            <box>
+              <size>2.65 0.18 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_00_leaf_03">
+          <pose>-12.755 -13.594 5.528 0 -0.157 2.208</pose>
+          <geometry>
+            <box>
+              <size>2.97 0.22 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_00_leaf_04">
+          <pose>-12.989 -14.625 5.407 0 0.258 3.279</pose>
+          <geometry>
+            <box>
+              <size>2.40 0.17 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_00_leaf_05">
+          <pose>-12.856 -15.322 5.626 0 0.334 3.958</pose>
+          <geometry>
+            <box>
+              <size>2.97 0.22 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_00_leaf_06">
+          <pose>-12.121 -15.511 5.667 0 0.267 4.676</pose>
+          <geometry>
+            <box>
+              <size>2.66 0.23 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_00_leaf_07">
+          <pose>-11.302 -15.247 5.472 0 -0.076 5.521</pose>
+          <geometry>
+            <box>
+              <size>2.85 0.16 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_01_trunk">
+          <pose>22.930 12.567 8.247 0 0 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.162</radius>
+              <length>3.855</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.34 0.19 0.09 1</ambient>
+            <diffuse>0.34 0.19 0.09 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_01_crown">
+          <pose>22.930 12.567 10.325 0 0 0</pose>
+          <geometry>
+            <sphere>
+              <radius>0.32</radius>
+            </sphere>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_01_leaf_00">
+          <pose>23.855 12.604 10.029 0 -0.090 0.041</pose>
+          <geometry>
+            <box>
+              <size>2.44 0.19 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_01_leaf_01">
+          <pose>23.572 13.404 10.010 0 0.187 0.916</pose>
+          <geometry>
+            <box>
+              <size>2.78 0.21 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_01_leaf_02">
+          <pose>23.024 13.495 10.245 0 0.084 1.470</pose>
+          <geometry>
+            <box>
+              <size>2.46 0.24 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_01_leaf_03">
+          <pose>22.077 13.330 10.039 0 -0.231 2.412</pose>
+          <geometry>
+            <box>
+              <size>3.01 0.22 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_01_leaf_04">
+          <pose>22.049 12.616 10.396 0 0.276 3.086</pose>
+          <geometry>
+            <box>
+              <size>2.32 0.18 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_01_leaf_05">
+          <pose>22.141 11.861 10.382 0 0.025 3.871</pose>
+          <geometry>
+            <box>
+              <size>2.79 0.19 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_01_leaf_06">
+          <pose>22.868 11.696 10.056 0 0.101 4.642</pose>
+          <geometry>
+            <box>
+              <size>2.30 0.20 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_01_leaf_07">
+          <pose>23.671 11.985 10.423 0 0.056 5.617</pose>
+          <geometry>
+            <box>
+              <size>2.48 0.18 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_02_trunk">
+          <pose>16.530 10.623 8.651 0 0 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.190</radius>
+              <length>3.876</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.34 0.19 0.09 1</ambient>
+            <diffuse>0.34 0.19 0.09 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_02_crown">
+          <pose>16.530 10.623 10.739 0 0 0</pose>
+          <geometry>
+            <sphere>
+              <radius>0.32</radius>
+            </sphere>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_02_leaf_00">
+          <pose>17.479 10.706 10.530 0 0.348 0.088</pose>
+          <geometry>
+            <box>
+              <size>2.51 0.17 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_02_leaf_01">
+          <pose>17.373 11.481 10.345 0 0.182 0.794</pose>
+          <geometry>
+            <box>
+              <size>3.17 0.23 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_02_leaf_02">
+          <pose>16.475 11.626 10.660 0 -0.183 1.625</pose>
+          <geometry>
+            <box>
+              <size>2.64 0.18 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_02_leaf_03">
+          <pose>15.860 11.320 10.777 0 -0.092 2.337</pose>
+          <geometry>
+            <box>
+              <size>2.54 0.24 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_02_leaf_04">
+          <pose>15.688 10.623 10.774 0 -0.071 3.142</pose>
+          <geometry>
+            <box>
+              <size>2.21 0.23 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_02_leaf_05">
+          <pose>15.827 9.859 10.720 0 0.074 3.969</pose>
+          <geometry>
+            <box>
+              <size>2.73 0.17 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_02_leaf_06">
+          <pose>16.613 9.625 10.501 0 -0.238 4.796</pose>
+          <geometry>
+            <box>
+              <size>2.64 0.16 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_02_leaf_07">
+          <pose>17.449 9.915 10.493 0 -0.215 5.627</pose>
+          <geometry>
+            <box>
+              <size>3.05 0.23 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_03_trunk">
+          <pose>36.841 -35.473 7.712 0 0 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.179</radius>
+              <length>3.816</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.34 0.19 0.09 1</ambient>
+            <diffuse>0.34 0.19 0.09 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_03_crown">
+          <pose>36.841 -35.473 9.770 0 0 0</pose>
+          <geometry>
+            <sphere>
+              <radius>0.32</radius>
+            </sphere>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_03_leaf_00">
+          <pose>37.939 -35.616 9.434 0 0.035 -0.129</pose>
+          <geometry>
+            <box>
+              <size>2.91 0.22 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_03_leaf_01">
+          <pose>37.455 -34.841 9.582 0 -0.123 0.800</pose>
+          <geometry>
+            <box>
+              <size>2.32 0.23 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_03_leaf_02">
+          <pose>36.828 -34.381 9.526 0 0.347 1.583</pose>
+          <geometry>
+            <box>
+              <size>2.88 0.18 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_03_leaf_03">
+          <pose>36.133 -34.826 9.431 0 -0.115 2.401</pose>
+          <geometry>
+            <box>
+              <size>2.53 0.20 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_03_leaf_04">
+          <pose>35.814 -35.424 9.480 0 -0.207 3.093</pose>
+          <geometry>
+            <box>
+              <size>2.71 0.18 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_03_leaf_05">
+          <pose>36.254 -36.108 9.800 0 -0.207 3.966</pose>
+          <geometry>
+            <box>
+              <size>2.27 0.23 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_03_leaf_06">
+          <pose>36.757 -36.535 9.436 0 0.311 4.634</pose>
+          <geometry>
+            <box>
+              <size>2.80 0.18 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_03_leaf_07">
+          <pose>37.545 -36.148 9.774 0 -0.136 5.519</pose>
+          <geometry>
+            <box>
+              <size>2.57 0.22 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_04_trunk">
+          <pose>27.138 18.928 9.462 0 0 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.177</radius>
+              <length>4.667</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.34 0.19 0.09 1</ambient>
+            <diffuse>0.34 0.19 0.09 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_04_crown">
+          <pose>27.138 18.928 11.946 0 0 0</pose>
+          <geometry>
+            <sphere>
+              <radius>0.32</radius>
+            </sphere>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_04_leaf_00">
+          <pose>28.202 19.001 11.595 0 -0.008 0.069</pose>
+          <geometry>
+            <box>
+              <size>2.81 0.24 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_04_leaf_01">
+          <pose>27.991 19.703 11.641 0 0.019 0.737</pose>
+          <geometry>
+            <box>
+              <size>3.03 0.18 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_04_leaf_02">
+          <pose>27.159 19.815 12.008 0 0.016 1.547</pose>
+          <geometry>
+            <box>
+              <size>2.33 0.18 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_04_leaf_03">
+          <pose>26.350 19.561 12.046 0 0.252 2.465</pose>
+          <geometry>
+            <box>
+              <size>2.66 0.16 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_04_leaf_04">
+          <pose>25.967 18.762 11.629 0 0.041 3.282</pose>
+          <geometry>
+            <box>
+              <size>3.11 0.23 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_04_leaf_05">
+          <pose>26.416 18.321 11.735 0 0.341 3.841</pose>
+          <geometry>
+            <box>
+              <size>2.48 0.16 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_04_leaf_06">
+          <pose>27.059 17.813 11.757 0 0.324 4.642</pose>
+          <geometry>
+            <box>
+              <size>2.94 0.20 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_04_leaf_07">
+          <pose>27.953 18.326 11.623 0 -0.072 5.646</pose>
+          <geometry>
+            <box>
+              <size>2.67 0.22 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_05_trunk">
+          <pose>-42.636 -11.576 6.444 0 0 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.187</radius>
+              <length>3.744</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.34 0.19 0.09 1</ambient>
+            <diffuse>0.34 0.19 0.09 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_05_crown">
+          <pose>-42.636 -11.576 8.466 0 0 0</pose>
+          <geometry>
+            <sphere>
+              <radius>0.32</radius>
+            </sphere>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_05_leaf_00">
+          <pose>-41.487 -11.575 8.546 0 -0.202 0.001</pose>
+          <geometry>
+            <box>
+              <size>3.02 0.17 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_05_leaf_01">
+          <pose>-41.841 -10.919 8.183 0 -0.178 0.691</pose>
+          <geometry>
+            <box>
+              <size>2.71 0.21 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_05_leaf_02">
+          <pose>-42.737 -10.710 8.375 0 0.002 1.688</pose>
+          <geometry>
+            <box>
+              <size>2.30 0.21 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_05_leaf_03">
+          <pose>-43.359 -10.888 8.168 0 0.180 2.381</pose>
+          <geometry>
+            <box>
+              <size>2.63 0.23 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_05_leaf_04">
+          <pose>-43.573 -11.502 8.216 0 -0.060 3.063</pose>
+          <geometry>
+            <box>
+              <size>2.47 0.21 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_05_leaf_05">
+          <pose>-43.152 -12.178 8.565 0 0.348 4.003</pose>
+          <geometry>
+            <box>
+              <size>2.09 0.20 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_05_leaf_06">
+          <pose>-42.745 -12.426 8.532 0 0.279 4.584</pose>
+          <geometry>
+            <box>
+              <size>2.26 0.18 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_05_leaf_07">
+          <pose>-41.909 -12.154 8.482 0 0.172 5.612</pose>
+          <geometry>
+            <box>
+              <size>2.44 0.17 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_06_trunk">
+          <pose>-40.138 -33.924 6.328 0 0 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.141</radius>
+              <length>5.248</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.34 0.19 0.09 1</ambient>
+            <diffuse>0.34 0.19 0.09 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_06_crown">
+          <pose>-40.138 -33.924 9.102 0 0 0</pose>
+          <geometry>
+            <sphere>
+              <radius>0.32</radius>
+            </sphere>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_06_leaf_00">
+          <pose>-39.245 -33.838 9.171 0 -0.169 0.095</pose>
+          <geometry>
+            <box>
+              <size>2.36 0.21 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_06_leaf_01">
+          <pose>-39.504 -33.421 8.838 0 0.113 0.670</pose>
+          <geometry>
+            <box>
+              <size>2.13 0.20 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_06_leaf_02">
+          <pose>-40.193 -33.073 8.834 0 0.043 1.636</pose>
+          <geometry>
+            <box>
+              <size>2.24 0.21 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_06_leaf_03">
+          <pose>-41.040 -33.218 8.914 0 -0.084 2.478</pose>
+          <geometry>
+            <box>
+              <size>3.02 0.17 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_06_leaf_04">
+          <pose>-41.237 -33.759 8.833 0 0.195 2.993</pose>
+          <geometry>
+            <box>
+              <size>2.93 0.21 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_06_leaf_05">
+          <pose>-40.802 -34.609 8.740 0 0.280 3.942</pose>
+          <geometry>
+            <box>
+              <size>2.51 0.16 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_06_leaf_06">
+          <pose>-40.016 -34.925 8.993 0 -0.161 4.834</pose>
+          <geometry>
+            <box>
+              <size>2.65 0.23 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_06_leaf_07">
+          <pose>-39.576 -34.627 9.100 0 0.266 5.386</pose>
+          <geometry>
+            <box>
+              <size>2.37 0.23 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_07_trunk">
+          <pose>20.410 -15.040 8.244 0 0 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.148</radius>
+              <length>4.229</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.34 0.19 0.09 1</ambient>
+            <diffuse>0.34 0.19 0.09 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_07_crown">
+          <pose>20.410 -15.040 10.509 0 0 0</pose>
+          <geometry>
+            <sphere>
+              <radius>0.32</radius>
+            </sphere>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_07_leaf_00">
+          <pose>21.569 -14.943 10.419 0 -0.157 0.084</pose>
+          <geometry>
+            <box>
+              <size>3.06 0.19 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_07_leaf_01">
+          <pose>21.114 -14.126 10.514 0 0.279 0.914</pose>
+          <geometry>
+            <box>
+              <size>3.04 0.24 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_07_leaf_02">
+          <pose>20.565 -13.955 10.574 0 0.231 1.428</pose>
+          <geometry>
+            <box>
+              <size>2.88 0.19 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_07_leaf_03">
+          <pose>19.528 -14.333 10.503 0 -0.185 2.465</pose>
+          <geometry>
+            <box>
+              <size>2.97 0.18 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_07_leaf_04">
+          <pose>19.265 -15.168 10.517 0 0.026 3.253</pose>
+          <geometry>
+            <box>
+              <size>3.03 0.18 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_07_leaf_05">
+          <pose>19.571 -15.786 10.121 0 -0.134 3.869</pose>
+          <geometry>
+            <box>
+              <size>2.95 0.18 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_07_leaf_06">
+          <pose>20.350 -16.193 10.248 0 0.135 4.661</pose>
+          <geometry>
+            <box>
+              <size>3.04 0.24 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_07_leaf_07">
+          <pose>21.237 -15.919 10.578 0 -0.181 5.468</pose>
+          <geometry>
+            <box>
+              <size>3.18 0.20 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_08_trunk">
+          <pose>23.832 -4.484 8.036 0 0 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.161</radius>
+              <length>6.026</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.34 0.19 0.09 1</ambient>
+            <diffuse>0.34 0.19 0.09 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_08_crown">
+          <pose>23.832 -4.484 11.198 0 0 0</pose>
+          <geometry>
+            <sphere>
+              <radius>0.32</radius>
+            </sphere>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_08_leaf_00">
+          <pose>24.783 -4.596 10.955 0 0.114 -0.117</pose>
+          <geometry>
+            <box>
+              <size>2.52 0.22 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_08_leaf_01">
+          <pose>24.491 -3.820 10.926 0 0.175 0.789</pose>
+          <geometry>
+            <box>
+              <size>2.46 0.21 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_08_leaf_02">
+          <pose>24.008 -3.315 11.158 0 0.195 1.421</pose>
+          <geometry>
+            <box>
+              <size>3.11 0.20 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_08_leaf_03">
+          <pose>23.144 -3.864 11.131 0 -0.052 2.407</pose>
+          <geometry>
+            <box>
+              <size>2.44 0.17 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_08_leaf_04">
+          <pose>22.687 -4.420 10.949 0 -0.064 3.086</pose>
+          <geometry>
+            <box>
+              <size>3.02 0.22 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_08_leaf_05">
+          <pose>23.146 -5.133 10.862 0 0.002 3.900</pose>
+          <geometry>
+            <box>
+              <size>2.48 0.18 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_08_leaf_06">
+          <pose>23.972 -5.544 11.106 0 -0.069 4.844</pose>
+          <geometry>
+            <box>
+              <size>2.81 0.23 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_08_leaf_07">
+          <pose>24.377 -5.014 11.013 0 0.098 5.512</pose>
+          <geometry>
+            <box>
+              <size>2.00 0.18 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_09_trunk">
+          <pose>-19.318 -28.312 3.756 0 0 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.157</radius>
+              <length>4.714</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.34 0.19 0.09 1</ambient>
+            <diffuse>0.34 0.19 0.09 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_09_crown">
+          <pose>-19.318 -28.312 6.263 0 0 0</pose>
+          <geometry>
+            <sphere>
+              <radius>0.32</radius>
+            </sphere>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_09_leaf_00">
+          <pose>-18.147 -28.322 5.947 0 -0.199 -0.008</pose>
+          <geometry>
+            <box>
+              <size>3.08 0.22 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_09_leaf_01">
+          <pose>-18.580 -27.567 6.272 0 0.201 0.790</pose>
+          <geometry>
+            <box>
+              <size>2.76 0.19 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_09_leaf_02">
+          <pose>-19.362 -27.451 5.875 0 -0.103 1.623</pose>
+          <geometry>
+            <box>
+              <size>2.27 0.18 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_09_leaf_03">
+          <pose>-20.123 -27.495 6.070 0 0.128 2.349</pose>
+          <geometry>
+            <box>
+              <size>3.02 0.17 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_09_leaf_04">
+          <pose>-20.391 -28.214 5.985 0 0.144 3.050</pose>
+          <geometry>
+            <box>
+              <size>2.84 0.20 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_09_leaf_05">
+          <pose>-20.204 -28.968 5.916 0 0.005 3.779</pose>
+          <geometry>
+            <box>
+              <size>2.90 0.22 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_09_leaf_06">
+          <pose>-19.434 -29.503 5.888 0 -0.100 4.615</pose>
+          <geometry>
+            <box>
+              <size>3.15 0.20 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_09_leaf_07">
+          <pose>-18.565 -28.922 6.196 0 0.343 5.602</pose>
+          <geometry>
+            <box>
+              <size>2.55 0.22 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_10_trunk">
+          <pose>-42.307 -28.928 6.635 0 0 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.189</radius>
+              <length>5.846</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.34 0.19 0.09 1</ambient>
+            <diffuse>0.34 0.19 0.09 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_10_crown">
+          <pose>-42.307 -28.928 9.708 0 0 0</pose>
+          <geometry>
+            <sphere>
+              <radius>0.32</radius>
+            </sphere>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_10_leaf_00">
+          <pose>-41.319 -28.863 9.582 0 0.288 0.066</pose>
+          <geometry>
+            <box>
+              <size>2.61 0.23 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_10_leaf_01">
+          <pose>-41.669 -28.189 9.432 0 0.133 0.858</pose>
+          <geometry>
+            <box>
+              <size>2.57 0.18 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_10_leaf_02">
+          <pose>-42.386 -27.933 9.445 0 -0.204 1.651</pose>
+          <geometry>
+            <box>
+              <size>2.63 0.21 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_10_leaf_03">
+          <pose>-42.891 -28.264 9.578 0 -0.167 2.292</pose>
+          <geometry>
+            <box>
+              <size>2.33 0.19 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_10_leaf_04">
+          <pose>-43.380 -28.841 9.340 0 -0.005 3.061</pose>
+          <geometry>
+            <box>
+              <size>2.83 0.22 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_10_leaf_05">
+          <pose>-42.970 -29.608 9.518 0 0.293 3.940</pose>
+          <geometry>
+            <box>
+              <size>2.50 0.18 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_10_leaf_06">
+          <pose>-42.280 -30.005 9.691 0 -0.022 4.738</pose>
+          <geometry>
+            <box>
+              <size>2.83 0.23 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_10_leaf_07">
+          <pose>-41.759 -29.668 9.735 0 0.322 5.350</pose>
+          <geometry>
+            <box>
+              <size>2.42 0.22 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_11_trunk">
+          <pose>-38.569 21.513 4.811 0 0 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.188</radius>
+              <length>4.976</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.34 0.19 0.09 1</ambient>
+            <diffuse>0.34 0.19 0.09 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_11_crown">
+          <pose>-38.569 21.513 7.449 0 0 0</pose>
+          <geometry>
+            <sphere>
+              <radius>0.32</radius>
+            </sphere>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_11_leaf_00">
+          <pose>-37.712 21.441 7.064 0 -0.048 -0.084</pose>
+          <geometry>
+            <box>
+              <size>2.26 0.19 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_11_leaf_01">
+          <pose>-37.938 22.216 7.283 0 -0.173 0.839</pose>
+          <geometry>
+            <box>
+              <size>2.49 0.17 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_11_leaf_02">
+          <pose>-38.597 22.285 7.331 0 -0.234 1.607</pose>
+          <geometry>
+            <box>
+              <size>2.03 0.19 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_11_leaf_03">
+          <pose>-39.174 22.069 7.074 0 -0.023 2.399</pose>
+          <geometry>
+            <box>
+              <size>2.16 0.20 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_11_leaf_04">
+          <pose>-39.474 21.592 7.239 0 0.201 3.055</pose>
+          <geometry>
+            <box>
+              <size>2.39 0.22 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_11_leaf_05">
+          <pose>-39.123 20.836 7.059 0 0.074 4.027</pose>
+          <geometry>
+            <box>
+              <size>2.30 0.17 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_11_leaf_06">
+          <pose>-38.431 20.604 7.440 0 0.141 4.862</pose>
+          <geometry>
+            <box>
+              <size>2.42 0.21 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_11_leaf_07">
+          <pose>-37.663 20.736 7.059 0 -0.159 5.574</pose>
+          <geometry>
+            <box>
+              <size>3.14 0.18 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_12_trunk">
+          <pose>29.071 29.520 9.159 0 0 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.157</radius>
+              <length>5.021</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.34 0.19 0.09 1</ambient>
+            <diffuse>0.34 0.19 0.09 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_12_crown">
+          <pose>29.071 29.520 11.820 0 0 0</pose>
+          <geometry>
+            <sphere>
+              <radius>0.32</radius>
+            </sphere>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_12_leaf_00">
+          <pose>30.178 29.586 11.723 0 0.199 0.060</pose>
+          <geometry>
+            <box>
+              <size>2.92 0.17 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_12_leaf_01">
+          <pose>29.959 30.224 11.474 0 -0.235 0.670</pose>
+          <geometry>
+            <box>
+              <size>2.98 0.24 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_12_leaf_02">
+          <pose>29.131 30.587 11.618 0 0.179 1.514</pose>
+          <geometry>
+            <box>
+              <size>2.81 0.24 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_12_leaf_03">
+          <pose>28.413 30.370 11.471 0 0.213 2.229</pose>
+          <geometry>
+            <box>
+              <size>2.83 0.21 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_12_leaf_04">
+          <pose>28.042 29.412 11.911 0 0.220 3.247</pose>
+          <geometry>
+            <box>
+              <size>2.72 0.17 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_12_leaf_05">
+          <pose>28.365 28.876 11.673 0 -0.045 3.881</pose>
+          <geometry>
+            <box>
+              <size>2.51 0.19 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_12_leaf_06">
+          <pose>29.189 28.391 11.900 0 0.131 4.817</pose>
+          <geometry>
+            <box>
+              <size>2.99 0.17 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_12_leaf_07">
+          <pose>29.908 28.834 11.786 0 0.329 5.596</pose>
+          <geometry>
+            <box>
+              <size>2.85 0.19 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_13_trunk">
+          <pose>-5.825 45.919 5.975 0 0 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.179</radius>
+              <length>4.956</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.34 0.19 0.09 1</ambient>
+            <diffuse>0.34 0.19 0.09 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_13_crown">
+          <pose>-5.825 45.919 8.603 0 0 0</pose>
+          <geometry>
+            <sphere>
+              <radius>0.32</radius>
+            </sphere>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_13_leaf_00">
+          <pose>-4.732 45.898 8.629 0 0.248 -0.019</pose>
+          <geometry>
+            <box>
+              <size>2.88 0.18 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_13_leaf_01">
+          <pose>-4.908 46.633 8.436 0 0.116 0.661</pose>
+          <geometry>
+            <box>
+              <size>3.06 0.18 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_13_leaf_02">
+          <pose>-5.797 46.692 8.294 0 -0.123 1.534</pose>
+          <geometry>
+            <box>
+              <size>2.03 0.23 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_13_leaf_03">
+          <pose>-6.527 46.506 8.554 0 -0.084 2.446</pose>
+          <geometry>
+            <box>
+              <size>2.41 0.23 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_13_leaf_04">
+          <pose>-7.005 46.094 8.563 0 0.043 2.995</pose>
+          <geometry>
+            <box>
+              <size>3.14 0.17 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_13_leaf_05">
+          <pose>-6.524 45.102 8.449 0 0.226 4.004</pose>
+          <geometry>
+            <box>
+              <size>2.83 0.21 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_13_leaf_06">
+          <pose>-5.930 45.064 8.356 0 0.099 4.590</pose>
+          <geometry>
+            <box>
+              <size>2.27 0.22 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_13_leaf_07">
+          <pose>-5.122 45.205 8.576 0 -0.052 5.490</pose>
+          <geometry>
+            <box>
+              <size>2.64 0.19 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_14_trunk">
+          <pose>-8.022 -26.285 4.384 0 0 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.150</radius>
+              <length>4.234</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.34 0.19 0.09 1</ambient>
+            <diffuse>0.34 0.19 0.09 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_14_crown">
+          <pose>-8.022 -26.285 6.651 0 0 0</pose>
+          <geometry>
+            <sphere>
+              <radius>0.32</radius>
+            </sphere>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_14_leaf_00">
+          <pose>-7.211 -26.360 6.632 0 -0.139 -0.092</pose>
+          <geometry>
+            <box>
+              <size>2.14 0.20 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_14_leaf_01">
+          <pose>-7.272 -25.653 6.739 0 0.065 0.700</pose>
+          <geometry>
+            <box>
+              <size>2.58 0.22 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_14_leaf_02">
+          <pose>-7.970 -25.481 6.365 0 -0.142 1.506</pose>
+          <geometry>
+            <box>
+              <size>2.12 0.18 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_14_leaf_03">
+          <pose>-8.621 -25.480 6.738 0 0.082 2.210</pose>
+          <geometry>
+            <box>
+              <size>2.64 0.18 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_14_leaf_04">
+          <pose>-8.838 -26.334 6.496 0 0.274 3.201</pose>
+          <geometry>
+            <box>
+              <size>2.15 0.23 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_14_leaf_05">
+          <pose>-8.696 -26.989 6.343 0 -0.219 3.949</pose>
+          <geometry>
+            <box>
+              <size>2.56 0.20 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_14_leaf_06">
+          <pose>-7.893 -27.254 6.451 0 -0.206 4.845</pose>
+          <geometry>
+            <box>
+              <size>2.57 0.23 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_14_leaf_07">
+          <pose>-7.446 -26.818 6.532 0 -0.068 5.537</pose>
+          <geometry>
+            <box>
+              <size>2.06 0.17 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_15_trunk">
+          <pose>22.130 -0.846 7.956 0 0 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.189</radius>
+              <length>5.526</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.34 0.19 0.09 1</ambient>
+            <diffuse>0.34 0.19 0.09 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_15_crown">
+          <pose>22.130 -0.846 10.869 0 0 0</pose>
+          <geometry>
+            <sphere>
+              <radius>0.32</radius>
+            </sphere>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_15_leaf_00">
+          <pose>22.989 -0.771 10.694 0 0.016 0.087</pose>
+          <geometry>
+            <box>
+              <size>2.27 0.20 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_15_leaf_01">
+          <pose>22.889 0.098 10.779 0 0.116 0.893</pose>
+          <geometry>
+            <box>
+              <size>3.19 0.18 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_15_leaf_02">
+          <pose>22.044 0.343 10.574 0 0.146 1.643</pose>
+          <geometry>
+            <box>
+              <size>3.14 0.18 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_15_leaf_03">
+          <pose>21.600 -0.195 10.470 0 0.020 2.253</pose>
+          <geometry>
+            <box>
+              <size>2.21 0.17 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_15_leaf_04">
+          <pose>21.237 -0.871 10.822 0 0.172 3.170</pose>
+          <geometry>
+            <box>
+              <size>2.35 0.18 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_15_leaf_05">
+          <pose>21.360 -1.595 10.863 0 0.125 3.913</pose>
+          <geometry>
+            <box>
+              <size>2.82 0.23 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_15_leaf_06">
+          <pose>22.187 -2.030 10.741 0 0.139 4.761</pose>
+          <geometry>
+            <box>
+              <size>3.12 0.19 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_15_leaf_07">
+          <pose>23.026 -1.546 10.552 0 -0.065 5.620</pose>
+          <geometry>
+            <box>
+              <size>2.99 0.17 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_16_trunk">
+          <pose>-0.248 -37.921 6.641 0 0 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.150</radius>
+              <length>4.327</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.34 0.19 0.09 1</ambient>
+            <diffuse>0.34 0.19 0.09 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_16_crown">
+          <pose>-0.248 -37.921 8.954 0 0 0</pose>
+          <geometry>
+            <sphere>
+              <radius>0.32</radius>
+            </sphere>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_16_leaf_00">
+          <pose>0.829 -37.860 8.805 0 0.046 0.057</pose>
+          <geometry>
+            <box>
+              <size>2.84 0.24 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_16_leaf_01">
+          <pose>0.367 -37.445 8.716 0 -0.100 0.660</pose>
+          <geometry>
+            <box>
+              <size>2.05 0.19 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_16_leaf_02">
+          <pose>-0.102 -36.732 8.842 0 0.320 1.448</pose>
+          <geometry>
+            <box>
+              <size>3.15 0.23 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_16_leaf_03">
+          <pose>-1.107 -37.288 8.575 0 0.204 2.506</pose>
+          <geometry>
+            <box>
+              <size>2.81 0.18 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_16_leaf_04">
+          <pose>-1.305 -37.912 8.645 0 0.101 3.133</pose>
+          <geometry>
+            <box>
+              <size>2.78 0.23 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_16_leaf_05">
+          <pose>-0.916 -38.645 8.728 0 -0.050 3.967</pose>
+          <geometry>
+            <box>
+              <size>2.59 0.17 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_16_leaf_06">
+          <pose>-0.190 -39.071 8.901 0 -0.077 4.763</pose>
+          <geometry>
+            <box>
+              <size>3.03 0.19 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_16_leaf_07">
+          <pose>0.651 -38.608 8.782 0 -0.061 5.631</pose>
+          <geometry>
+            <box>
+              <size>2.98 0.20 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_17_trunk">
+          <pose>-23.084 46.547 4.996 0 0 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.181</radius>
+              <length>4.619</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.34 0.19 0.09 1</ambient>
+            <diffuse>0.34 0.19 0.09 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_17_crown">
+          <pose>-23.084 46.547 7.455 0 0 0</pose>
+          <geometry>
+            <sphere>
+              <radius>0.32</radius>
+            </sphere>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_17_leaf_00">
+          <pose>-22.036 46.701 7.262 0 -0.137 0.146</pose>
+          <geometry>
+            <box>
+              <size>2.79 0.20 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_17_leaf_01">
+          <pose>-22.271 47.295 7.435 0 -0.128 0.744</pose>
+          <geometry>
+            <box>
+              <size>2.91 0.21 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_17_leaf_02">
+          <pose>-23.102 47.730 7.405 0 -0.177 1.586</pose>
+          <geometry>
+            <box>
+              <size>3.11 0.20 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_17_leaf_03">
+          <pose>-23.914 47.169 7.135 0 0.081 2.498</pose>
+          <geometry>
+            <box>
+              <size>2.73 0.18 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_17_leaf_04">
+          <pose>-23.887 46.534 7.512 0 0.027 3.157</pose>
+          <geometry>
+            <box>
+              <size>2.11 0.24 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_17_leaf_05">
+          <pose>-23.977 45.839 7.414 0 0.055 3.812</pose>
+          <geometry>
+            <box>
+              <size>3.00 0.20 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_17_leaf_06">
+          <pose>-23.162 45.409 7.177 0 0.081 4.644</pose>
+          <geometry>
+            <box>
+              <size>3.00 0.24 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_17_leaf_07">
+          <pose>-22.279 45.683 7.495 0 0.268 5.463</pose>
+          <geometry>
+            <box>
+              <size>3.11 0.20 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_18_trunk">
+          <pose>-7.494 45.031 5.712 0 0 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.215</radius>
+              <length>4.646</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.34 0.19 0.09 1</ambient>
+            <diffuse>0.34 0.19 0.09 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_18_crown">
+          <pose>-7.494 45.031 8.185 0 0 0</pose>
+          <geometry>
+            <sphere>
+              <radius>0.32</radius>
+            </sphere>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_18_leaf_00">
+          <pose>-6.360 45.033 7.935 0 0.102 0.002</pose>
+          <geometry>
+            <box>
+              <size>2.98 0.18 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_18_leaf_01">
+          <pose>-6.911 45.822 8.055 0 -0.043 0.935</pose>
+          <geometry>
+            <box>
+              <size>2.59 0.17 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_18_leaf_02">
+          <pose>-7.510 46.039 7.946 0 -0.137 1.586</pose>
+          <geometry>
+            <box>
+              <size>2.65 0.20 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_18_leaf_03">
+          <pose>-8.258 45.709 8.173 0 -0.224 2.415</pose>
+          <geometry>
+            <box>
+              <size>2.69 0.18 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_18_leaf_04">
+          <pose>-8.573 44.952 7.978 0 0.148 3.215</pose>
+          <geometry>
+            <box>
+              <size>2.85 0.22 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_18_leaf_05">
+          <pose>-8.262 44.099 7.804 0 0.051 4.023</pose>
+          <geometry>
+            <box>
+              <size>3.18 0.20 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_18_leaf_06">
+          <pose>-7.463 43.875 8.005 0 0.066 4.739</pose>
+          <geometry>
+            <box>
+              <size>3.04 0.23 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_18_leaf_07">
+          <pose>-6.734 44.251 8.113 0 -0.157 5.485</pose>
+          <geometry>
+            <box>
+              <size>2.87 0.19 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_19_trunk">
+          <pose>-50.971 9.892 5.869 0 0 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.195</radius>
+              <length>4.453</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.34 0.19 0.09 1</ambient>
+            <diffuse>0.34 0.19 0.09 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_19_crown">
+          <pose>-50.971 9.892 8.246 0 0 0</pose>
+          <geometry>
+            <sphere>
+              <radius>0.32</radius>
+            </sphere>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_19_leaf_00">
+          <pose>-49.824 9.944 8.276 0 -0.022 0.045</pose>
+          <geometry>
+            <box>
+              <size>3.02 0.23 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_19_leaf_01">
+          <pose>-50.161 10.618 8.282 0 -0.228 0.730</pose>
+          <geometry>
+            <box>
+              <size>2.86 0.22 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_19_leaf_02">
+          <pose>-50.836 10.931 8.345 0 0.198 1.441</pose>
+          <geometry>
+            <box>
+              <size>2.76 0.23 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_19_leaf_03">
+          <pose>-51.529 10.473 8.282 0 0.016 2.336</pose>
+          <geometry>
+            <box>
+              <size>2.12 0.21 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_19_leaf_04">
+          <pose>-52.141 9.824 8.244 0 -0.074 3.200</pose>
+          <geometry>
+            <box>
+              <size>3.08 0.16 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_19_leaf_05">
+          <pose>-51.577 9.330 8.129 0 0.226 3.889</pose>
+          <geometry>
+            <box>
+              <size>2.17 0.20 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_19_leaf_06">
+          <pose>-51.050 9.100 8.156 0 -0.106 4.613</pose>
+          <geometry>
+            <box>
+              <size>2.09 0.23 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_19_leaf_07">
+          <pose>-50.320 9.385 7.973 0 -0.097 5.622</pose>
+          <geometry>
+            <box>
+              <size>2.17 0.20 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_20_trunk">
+          <pose>33.935 -24.263 9.737 0 0 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.175</radius>
+              <length>3.998</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.34 0.19 0.09 1</ambient>
+            <diffuse>0.34 0.19 0.09 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_20_crown">
+          <pose>33.935 -24.263 11.886 0 0 0</pose>
+          <geometry>
+            <sphere>
+              <radius>0.32</radius>
+            </sphere>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_20_leaf_00">
+          <pose>34.961 -24.311 11.698 0 -0.100 -0.046</pose>
+          <geometry>
+            <box>
+              <size>2.71 0.21 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_20_leaf_01">
+          <pose>34.471 -23.602 11.728 0 -0.108 0.889</pose>
+          <geometry>
+            <box>
+              <size>2.24 0.19 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_20_leaf_02">
+          <pose>33.913 -23.241 11.634 0 0.337 1.592</pose>
+          <geometry>
+            <box>
+              <size>2.69 0.24 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_20_leaf_03">
+          <pose>33.280 -23.668 11.829 0 0.197 2.404</pose>
+          <geometry>
+            <box>
+              <size>2.33 0.21 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_20_leaf_04">
+          <pose>32.908 -24.123 11.938 0 -0.078 3.006</pose>
+          <geometry>
+            <box>
+              <size>2.73 0.20 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_20_leaf_05">
+          <pose>33.270 -25.059 11.804 0 0.123 4.017</pose>
+          <geometry>
+            <box>
+              <size>2.73 0.19 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_20_leaf_06">
+          <pose>33.993 -25.350 11.905 0 0.127 4.766</pose>
+          <geometry>
+            <box>
+              <size>2.87 0.21 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_20_leaf_07">
+          <pose>34.765 -24.913 11.707 0 0.098 5.619</pose>
+          <geometry>
+            <box>
+              <size>2.78 0.18 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_21_trunk">
+          <pose>-2.340 -21.025 3.753 0 0 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.200</radius>
+              <length>4.344</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.34 0.19 0.09 1</ambient>
+            <diffuse>0.34 0.19 0.09 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_21_crown">
+          <pose>-2.340 -21.025 6.075 0 0 0</pose>
+          <geometry>
+            <sphere>
+              <radius>0.32</radius>
+            </sphere>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_21_leaf_00">
+          <pose>-1.524 -21.105 6.161 0 0.069 -0.097</pose>
+          <geometry>
+            <box>
+              <size>2.16 0.20 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_21_leaf_01">
+          <pose>-1.641 -20.126 6.087 0 0.039 0.909</pose>
+          <geometry>
+            <box>
+              <size>3.00 0.18 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_21_leaf_02">
+          <pose>-2.441 -19.929 5.733 0 0.328 1.663</pose>
+          <geometry>
+            <box>
+              <size>2.90 0.19 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_21_leaf_03">
+          <pose>-3.093 -20.089 6.037 0 0.338 2.248</pose>
+          <geometry>
+            <box>
+              <size>3.16 0.23 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_21_leaf_04">
+          <pose>-3.456 -21.182 6.070 0 -0.242 3.282</pose>
+          <geometry>
+            <box>
+              <size>2.97 0.19 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_21_leaf_05">
+          <pose>-3.016 -21.716 6.011 0 0.101 3.938</pose>
+          <geometry>
+            <box>
+              <size>2.55 0.21 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_21_leaf_06">
+          <pose>-2.225 -22.208 5.792 0 -0.235 4.809</pose>
+          <geometry>
+            <box>
+              <size>3.13 0.17 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_21_leaf_07">
+          <pose>-1.544 -21.656 5.786 0 -0.212 5.613</pose>
+          <geometry>
+            <box>
+              <size>2.67 0.23 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_22_trunk">
+          <pose>22.302 -44.559 6.466 0 0 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.173</radius>
+              <length>4.362</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.34 0.19 0.09 1</ambient>
+            <diffuse>0.34 0.19 0.09 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_22_crown">
+          <pose>22.302 -44.559 8.797 0 0 0</pose>
+          <geometry>
+            <sphere>
+              <radius>0.32</radius>
+            </sphere>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_22_leaf_00">
+          <pose>23.486 -44.688 8.643 0 -0.192 -0.108</pose>
+          <geometry>
+            <box>
+              <size>3.14 0.18 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_22_leaf_01">
+          <pose>22.812 -43.915 8.732 0 0.196 0.902</pose>
+          <geometry>
+            <box>
+              <size>2.16 0.20 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_22_leaf_02">
+          <pose>22.175 -43.617 8.474 0 -0.001 1.705</pose>
+          <geometry>
+            <box>
+              <size>2.50 0.22 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_22_leaf_03">
+          <pose>21.695 -43.786 8.872 0 -0.230 2.236</pose>
+          <geometry>
+            <box>
+              <size>2.59 0.19 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_22_leaf_04">
+          <pose>21.340 -44.522 8.824 0 -0.190 3.103</pose>
+          <geometry>
+            <box>
+              <size>2.53 0.24 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_22_leaf_05">
+          <pose>21.630 -45.311 8.576 0 -0.011 3.983</pose>
+          <geometry>
+            <box>
+              <size>2.65 0.24 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_22_leaf_06">
+          <pose>22.226 -45.371 8.624 0 0.148 4.619</pose>
+          <geometry>
+            <box>
+              <size>2.15 0.23 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_22_leaf_07">
+          <pose>23.062 -45.257 8.790 0 -0.104 5.540</pose>
+          <geometry>
+            <box>
+              <size>2.72 0.16 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_23_trunk">
+          <pose>26.545 26.855 9.201 0 0 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.201</radius>
+              <length>3.773</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.34 0.19 0.09 1</ambient>
+            <diffuse>0.34 0.19 0.09 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_23_crown">
+          <pose>26.545 26.855 11.237 0 0 0</pose>
+          <geometry>
+            <sphere>
+              <radius>0.32</radius>
+            </sphere>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_23_leaf_00">
+          <pose>27.400 26.780 11.002 0 -0.161 -0.088</pose>
+          <geometry>
+            <box>
+              <size>2.26 0.23 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_23_leaf_01">
+          <pose>27.015 27.454 10.910 0 -0.172 0.906</pose>
+          <geometry>
+            <box>
+              <size>2.00 0.23 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_23_leaf_02">
+          <pose>26.608 27.692 10.850 0 -0.241 1.496</pose>
+          <geometry>
+            <box>
+              <size>2.21 0.21 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_23_leaf_03">
+          <pose>25.880 27.413 10.924 0 -0.219 2.443</pose>
+          <geometry>
+            <box>
+              <size>2.29 0.19 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_23_leaf_04">
+          <pose>25.548 26.783 11.075 0 0.217 3.214</pose>
+          <geometry>
+            <box>
+              <size>2.63 0.22 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_23_leaf_05">
+          <pose>25.975 26.280 11.310 0 -0.224 3.931</pose>
+          <geometry>
+            <box>
+              <size>2.13 0.20 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_23_leaf_06">
+          <pose>26.643 25.704 11.066 0 0.328 4.797</pose>
+          <geometry>
+            <box>
+              <size>3.04 0.20 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_23_leaf_07">
+          <pose>27.140 26.078 11.180 0 0.044 5.366</pose>
+          <geometry>
+            <box>
+              <size>2.57 0.19 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_24_trunk">
+          <pose>17.349 -11.056 7.520 0 0 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.189</radius>
+              <length>3.804</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.34 0.19 0.09 1</ambient>
+            <diffuse>0.34 0.19 0.09 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_24_crown">
+          <pose>17.349 -11.056 9.572 0 0 0</pose>
+          <geometry>
+            <sphere>
+              <radius>0.32</radius>
+            </sphere>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_24_leaf_00">
+          <pose>18.227 -11.171 9.446 0 -0.055 -0.130</pose>
+          <geometry>
+            <box>
+              <size>2.33 0.21 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_24_leaf_01">
+          <pose>17.945 -10.250 9.475 0 -0.190 0.934</pose>
+          <geometry>
+            <box>
+              <size>2.64 0.20 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_24_leaf_02">
+          <pose>17.279 -9.909 9.557 0 0.183 1.631</pose>
+          <geometry>
+            <box>
+              <size>3.02 0.21 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_24_leaf_03">
+          <pose>16.727 -10.317 9.342 0 0.022 2.271</pose>
+          <geometry>
+            <box>
+              <size>2.54 0.18 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_24_leaf_04">
+          <pose>16.546 -11.036 9.505 0 -0.025 3.116</pose>
+          <geometry>
+            <box>
+              <size>2.11 0.19 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_24_leaf_05">
+          <pose>16.432 -11.799 9.588 0 -0.194 3.823</pose>
+          <geometry>
+            <box>
+              <size>3.11 0.17 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_24_leaf_06">
+          <pose>17.216 -12.145 9.450 0 0.102 4.591</pose>
+          <geometry>
+            <box>
+              <size>2.89 0.22 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_24_leaf_07">
+          <pose>18.004 -11.687 9.349 0 0.149 5.516</pose>
+          <geometry>
+            <box>
+              <size>2.40 0.17 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_25_trunk">
+          <pose>0.086 -48.383 5.998 0 0 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.217</radius>
+              <length>5.417</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.34 0.19 0.09 1</ambient>
+            <diffuse>0.34 0.19 0.09 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_25_crown">
+          <pose>0.086 -48.383 8.857 0 0 0</pose>
+          <geometry>
+            <sphere>
+              <radius>0.32</radius>
+            </sphere>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_25_leaf_00">
+          <pose>1.006 -48.355 8.563 0 0.144 0.030</pose>
+          <geometry>
+            <box>
+              <size>2.42 0.21 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_25_leaf_01">
+          <pose>0.704 -47.860 8.641 0 0.208 0.703</pose>
+          <geometry>
+            <box>
+              <size>2.13 0.23 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_25_leaf_02">
+          <pose>0.061 -47.255 8.944 0 0.241 1.593</pose>
+          <geometry>
+            <box>
+              <size>2.97 0.23 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_25_leaf_03">
+          <pose>-0.683 -47.664 8.922 0 0.248 2.390</pose>
+          <geometry>
+            <box>
+              <size>2.77 0.16 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_25_leaf_04">
+          <pose>-0.754 -48.324 8.612 0 -0.046 3.072</pose>
+          <geometry>
+            <box>
+              <size>2.22 0.22 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_25_leaf_05">
+          <pose>-0.843 -49.071 8.657 0 -0.165 3.779</pose>
+          <geometry>
+            <box>
+              <size>3.04 0.21 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_25_leaf_06">
+          <pose>0.117 -49.157 8.565 0 0.002 4.752</pose>
+          <geometry>
+            <box>
+              <size>2.04 0.22 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_25_leaf_07">
+          <pose>0.711 -49.070 8.845 0 0.091 5.450</pose>
+          <geometry>
+            <box>
+              <size>2.44 0.22 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_26_trunk">
+          <pose>17.081 10.095 8.608 0 0 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.189</radius>
+              <length>3.997</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.34 0.19 0.09 1</ambient>
+            <diffuse>0.34 0.19 0.09 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_26_crown">
+          <pose>17.081 10.095 10.756 0 0 0</pose>
+          <geometry>
+            <sphere>
+              <radius>0.32</radius>
+            </sphere>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_26_leaf_00">
+          <pose>17.964 10.142 10.599 0 0.015 0.052</pose>
+          <geometry>
+            <box>
+              <size>2.33 0.21 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_26_leaf_01">
+          <pose>17.913 10.821 10.571 0 -0.080 0.717</pose>
+          <geometry>
+            <box>
+              <size>2.91 0.17 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_26_leaf_02">
+          <pose>17.028 11.076 10.379 0 -0.013 1.624</pose>
+          <geometry>
+            <box>
+              <size>2.58 0.21 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_26_leaf_03">
+          <pose>16.525 10.619 10.462 0 -0.168 2.386</pose>
+          <geometry>
+            <box>
+              <size>2.01 0.18 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_26_leaf_04">
+          <pose>16.174 10.162 10.730 0 -0.145 3.068</pose>
+          <geometry>
+            <box>
+              <size>2.39 0.16 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_26_leaf_05">
+          <pose>16.290 9.359 10.773 0 0.234 3.891</pose>
+          <geometry>
+            <box>
+              <size>2.84 0.20 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_26_leaf_06">
+          <pose>16.933 8.952 10.366 0 0.303 4.584</pose>
+          <geometry>
+            <box>
+              <size>3.03 0.16 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_26_leaf_07">
+          <pose>17.878 9.455 10.711 0 0.001 5.606</pose>
+          <geometry>
+            <box>
+              <size>2.69 0.21 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_27_trunk">
+          <pose>14.036 12.402 9.288 0 0 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.204</radius>
+              <length>4.418</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.34 0.19 0.09 1</ambient>
+            <diffuse>0.34 0.19 0.09 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_27_crown">
+          <pose>14.036 12.402 11.647 0 0 0</pose>
+          <geometry>
+            <sphere>
+              <radius>0.32</radius>
+            </sphere>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_27_leaf_00">
+          <pose>15.175 12.442 11.291 0 0.257 0.035</pose>
+          <geometry>
+            <box>
+              <size>3.00 0.23 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_27_leaf_01">
+          <pose>14.817 13.071 11.445 0 -0.064 0.708</pose>
+          <geometry>
+            <box>
+              <size>2.71 0.20 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_27_leaf_02">
+          <pose>14.080 13.312 11.502 0 -0.182 1.523</pose>
+          <geometry>
+            <box>
+              <size>2.40 0.17 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_27_leaf_03">
+          <pose>13.204 13.229 11.611 0 0.241 2.359</pose>
+          <geometry>
+            <box>
+              <size>3.09 0.19 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_27_leaf_04">
+          <pose>13.172 12.320 11.346 0 0.111 3.236</pose>
+          <geometry>
+            <box>
+              <size>2.28 0.17 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_27_leaf_05">
+          <pose>13.348 11.597 11.633 0 0.046 4.005</pose>
+          <geometry>
+            <box>
+              <size>2.79 0.17 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_27_leaf_06">
+          <pose>14.120 11.298 11.709 0 0.089 4.789</pose>
+          <geometry>
+            <box>
+              <size>2.91 0.20 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_27_leaf_07">
+          <pose>14.804 11.693 11.561 0 -0.159 5.538</pose>
+          <geometry>
+            <box>
+              <size>2.75 0.23 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_28_trunk">
+          <pose>30.443 13.927 8.390 0 0 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.162</radius>
+              <length>4.363</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.34 0.19 0.09 1</ambient>
+            <diffuse>0.34 0.19 0.09 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_28_crown">
+          <pose>30.443 13.927 10.722 0 0 0</pose>
+          <geometry>
+            <sphere>
+              <radius>0.32</radius>
+            </sphere>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_28_leaf_00">
+          <pose>31.425 13.795 10.548 0 -0.216 -0.133</pose>
+          <geometry>
+            <box>
+              <size>2.61 0.18 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_28_leaf_01">
+          <pose>30.946 14.542 10.750 0 0.119 0.885</pose>
+          <geometry>
+            <box>
+              <size>2.09 0.23 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_28_leaf_02">
+          <pose>30.441 14.898 10.718 0 0.288 1.573</pose>
+          <geometry>
+            <box>
+              <size>2.56 0.20 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_28_leaf_03">
+          <pose>29.656 14.737 10.483 0 0.035 2.341</pose>
+          <geometry>
+            <box>
+              <size>2.97 0.21 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_28_leaf_04">
+          <pose>29.659 14.009 10.771 0 -0.044 3.037</pose>
+          <geometry>
+            <box>
+              <size>2.07 0.17 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_28_leaf_05">
+          <pose>29.789 13.183 10.446 0 0.013 3.991</pose>
+          <geometry>
+            <box>
+              <size>2.61 0.17 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_28_leaf_06">
+          <pose>30.425 12.929 10.508 0 -0.080 4.694</pose>
+          <geometry>
+            <box>
+              <size>2.63 0.17 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_28_leaf_07">
+          <pose>31.071 13.263 10.717 0 0.138 5.470</pose>
+          <geometry>
+            <box>
+              <size>2.41 0.21 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_29_trunk">
+          <pose>19.506 8.574 8.826 0 0 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.163</radius>
+              <length>5.310</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.34 0.19 0.09 1</ambient>
+            <diffuse>0.34 0.19 0.09 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_29_crown">
+          <pose>19.506 8.574 11.631 0 0 0</pose>
+          <geometry>
+            <sphere>
+              <radius>0.32</radius>
+            </sphere>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_29_leaf_00">
+          <pose>20.563 8.645 11.667 0 -0.050 0.067</pose>
+          <geometry>
+            <box>
+              <size>2.79 0.23 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_29_leaf_01">
+          <pose>20.075 9.172 11.715 0 0.169 0.810</pose>
+          <geometry>
+            <box>
+              <size>2.17 0.19 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_29_leaf_02">
+          <pose>19.540 9.605 11.386 0 -0.024 1.538</pose>
+          <geometry>
+            <box>
+              <size>2.71 0.24 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_29_leaf_03">
+          <pose>18.640 9.301 11.645 0 0.193 2.444</pose>
+          <geometry>
+            <box>
+              <size>2.98 0.21 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_29_leaf_04">
+          <pose>18.508 8.519 11.442 0 -0.033 3.197</pose>
+          <geometry>
+            <box>
+              <size>2.63 0.21 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_29_leaf_05">
+          <pose>18.887 8.004 11.705 0 0.042 3.886</pose>
+          <geometry>
+            <box>
+              <size>2.22 0.18 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_29_leaf_06">
+          <pose>19.439 7.754 11.653 0 -0.189 4.630</pose>
+          <geometry>
+            <box>
+              <size>2.17 0.17 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_29_leaf_07">
+          <pose>20.376 7.836 11.250 0 -0.048 5.579</pose>
+          <geometry>
+            <box>
+              <size>3.00 0.23 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_30_trunk">
+          <pose>2.310 -22.468 4.381 0 0 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.153</radius>
+              <length>4.549</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.34 0.19 0.09 1</ambient>
+            <diffuse>0.34 0.19 0.09 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_30_crown">
+          <pose>2.310 -22.468 6.806 0 0 0</pose>
+          <geometry>
+            <sphere>
+              <radius>0.32</radius>
+            </sphere>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_30_leaf_00">
+          <pose>3.416 -22.358 6.489 0 0.013 0.099</pose>
+          <geometry>
+            <box>
+              <size>2.93 0.22 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_30_leaf_01">
+          <pose>3.086 -21.733 6.628 0 -0.079 0.759</pose>
+          <geometry>
+            <box>
+              <size>2.81 0.18 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_30_leaf_02">
+          <pose>2.238 -21.506 6.561 0 0.235 1.645</pose>
+          <geometry>
+            <box>
+              <size>2.54 0.20 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_30_leaf_03">
+          <pose>1.511 -21.654 6.879 0 0.341 2.347</pose>
+          <geometry>
+            <box>
+              <size>3.00 0.19 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_30_leaf_04">
+          <pose>1.422 -22.458 6.670 0 0.330 3.130</pose>
+          <geometry>
+            <box>
+              <size>2.34 0.19 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_30_leaf_05">
+          <pose>1.594 -23.336 6.531 0 0.135 4.022</pose>
+          <geometry>
+            <box>
+              <size>2.96 0.17 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_30_leaf_06">
+          <pose>2.424 -23.475 6.829 0 0.261 4.825</pose>
+          <geometry>
+            <box>
+              <size>2.67 0.17 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_30_leaf_07">
+          <pose>3.042 -23.301 6.859 0 -0.162 5.433</pose>
+          <geometry>
+            <box>
+              <size>2.92 0.18 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_31_trunk">
+          <pose>-47.229 19.573 5.176 0 0 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.176</radius>
+              <length>4.160</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.34 0.19 0.09 1</ambient>
+            <diffuse>0.34 0.19 0.09 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_31_crown">
+          <pose>-47.229 19.573 7.406 0 0 0</pose>
+          <geometry>
+            <sphere>
+              <radius>0.32</radius>
+            </sphere>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_31_leaf_00">
+          <pose>-46.458 19.538 7.257 0 -0.109 -0.045</pose>
+          <geometry>
+            <box>
+              <size>2.03 0.16 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_31_leaf_01">
+          <pose>-46.676 20.321 7.471 0 0.254 0.934</pose>
+          <geometry>
+            <box>
+              <size>2.45 0.16 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_31_leaf_02">
+          <pose>-47.280 20.692 7.149 0 0.248 1.616</pose>
+          <geometry>
+            <box>
+              <size>2.95 0.17 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_31_leaf_03">
+          <pose>-47.845 20.120 7.230 0 -0.247 2.415</pose>
+          <geometry>
+            <box>
+              <size>2.17 0.22 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_31_leaf_04">
+          <pose>-48.099 19.683 7.280 0 0.186 3.015</pose>
+          <geometry>
+            <box>
+              <size>2.31 0.23 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_31_leaf_05">
+          <pose>-47.798 18.995 7.156 0 -0.221 3.935</pose>
+          <geometry>
+            <box>
+              <size>2.13 0.18 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_31_leaf_06">
+          <pose>-47.256 18.451 7.061 0 0.293 4.688</pose>
+          <geometry>
+            <box>
+              <size>2.95 0.20 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_31_leaf_07">
+          <pose>-46.671 19.046 7.127 0 -0.164 5.527</pose>
+          <geometry>
+            <box>
+              <size>2.02 0.20 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_32_trunk">
+          <pose>-35.676 16.997 5.127 0 0 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.173</radius>
+              <length>4.206</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.34 0.19 0.09 1</ambient>
+            <diffuse>0.34 0.19 0.09 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_32_crown">
+          <pose>-35.676 16.997 7.380 0 0 0</pose>
+          <geometry>
+            <sphere>
+              <radius>0.32</radius>
+            </sphere>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_32_leaf_00">
+          <pose>-34.878 17.036 7.014 0 0.066 0.049</pose>
+          <geometry>
+            <box>
+              <size>2.10 0.24 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_32_leaf_01">
+          <pose>-34.822 17.855 7.176 0 0.032 0.788</pose>
+          <geometry>
+            <box>
+              <size>3.19 0.20 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_32_leaf_02">
+          <pose>-35.726 18.203 6.989 0 0.223 1.611</pose>
+          <geometry>
+            <box>
+              <size>3.18 0.18 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_32_leaf_03">
+          <pose>-36.413 17.806 7.366 0 0.191 2.310</pose>
+          <geometry>
+            <box>
+              <size>2.88 0.21 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_32_leaf_04">
+          <pose>-36.456 17.036 7.387 0 -0.145 3.091</pose>
+          <geometry>
+            <box>
+              <size>2.05 0.20 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_32_leaf_05">
+          <pose>-36.304 16.255 7.296 0 0.237 4.011</pose>
+          <geometry>
+            <box>
+              <size>2.56 0.22 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_32_leaf_06">
+          <pose>-35.822 15.893 7.127 0 -0.224 4.581</pose>
+          <geometry>
+            <box>
+              <size>2.93 0.20 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_32_leaf_07">
+          <pose>-35.177 16.399 7.238 0 0.343 5.408</pose>
+          <geometry>
+            <box>
+              <size>2.05 0.23 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_33_trunk">
+          <pose>-25.890 -7.176 6.104 0 0 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.155</radius>
+              <length>5.498</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.34 0.19 0.09 1</ambient>
+            <diffuse>0.34 0.19 0.09 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_33_crown">
+          <pose>-25.890 -7.176 9.003 0 0 0</pose>
+          <geometry>
+            <sphere>
+              <radius>0.32</radius>
+            </sphere>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_33_leaf_00">
+          <pose>-24.775 -7.223 8.769 0 -0.175 -0.043</pose>
+          <geometry>
+            <box>
+              <size>2.94 0.23 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_33_leaf_01">
+          <pose>-25.034 -6.385 9.050 0 -0.018 0.746</pose>
+          <geometry>
+            <box>
+              <size>3.07 0.22 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_33_leaf_02">
+          <pose>-26.030 -6.199 9.065 0 0.062 1.713</pose>
+          <geometry>
+            <box>
+              <size>2.60 0.20 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_33_leaf_03">
+          <pose>-26.728 -6.477 8.904 0 0.243 2.447</pose>
+          <geometry>
+            <box>
+              <size>2.87 0.17 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_33_leaf_04">
+          <pose>-26.796 -7.188 8.933 0 -0.066 3.155</pose>
+          <geometry>
+            <box>
+              <size>2.39 0.17 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_33_leaf_05">
+          <pose>-26.544 -7.871 8.778 0 -0.225 3.958</pose>
+          <geometry>
+            <box>
+              <size>2.51 0.22 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_33_leaf_06">
+          <pose>-25.788 -8.091 8.740 0 0.338 4.823</pose>
+          <geometry>
+            <box>
+              <size>2.42 0.24 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_33_leaf_07">
+          <pose>-25.258 -7.657 8.784 0 0.231 5.632</pose>
+          <geometry>
+            <box>
+              <size>2.09 0.21 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_34_trunk">
+          <pose>-22.035 -46.379 5.452 0 0 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.189</radius>
+              <length>3.960</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.34 0.19 0.09 1</ambient>
+            <diffuse>0.34 0.19 0.09 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_34_crown">
+          <pose>-22.035 -46.379 7.582 0 0 0</pose>
+          <geometry>
+            <sphere>
+              <radius>0.32</radius>
+            </sphere>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_34_leaf_00">
+          <pose>-21.262 -46.314 7.571 0 -0.030 0.084</pose>
+          <geometry>
+            <box>
+              <size>2.04 0.17 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_34_leaf_01">
+          <pose>-21.289 -45.685 7.521 0 0.319 0.750</pose>
+          <geometry>
+            <box>
+              <size>2.68 0.21 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_34_leaf_02">
+          <pose>-21.992 -45.272 7.447 0 -0.011 1.532</pose>
+          <geometry>
+            <box>
+              <size>2.92 0.21 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_34_leaf_03">
+          <pose>-22.680 -45.790 7.550 0 0.049 2.401</pose>
+          <geometry>
+            <box>
+              <size>2.30 0.17 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_34_leaf_04">
+          <pose>-23.050 -46.345 7.312 0 0.018 3.108</pose>
+          <geometry>
+            <box>
+              <size>2.67 0.18 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_34_leaf_05">
+          <pose>-22.564 -47.095 7.427 0 -0.176 4.076</pose>
+          <geometry>
+            <box>
+              <size>2.34 0.23 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_34_leaf_06">
+          <pose>-21.933 -47.340 7.404 0 -0.197 4.818</pose>
+          <geometry>
+            <box>
+              <size>2.54 0.23 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_34_leaf_07">
+          <pose>-21.182 -47.144 7.356 0 -0.211 5.552</pose>
+          <geometry>
+            <box>
+              <size>3.01 0.19 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_35_trunk">
+          <pose>-47.480 -12.884 7.591 0 0 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.197</radius>
+              <length>5.745</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.34 0.19 0.09 1</ambient>
+            <diffuse>0.34 0.19 0.09 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_35_crown">
+          <pose>-47.480 -12.884 10.613 0 0 0</pose>
+          <geometry>
+            <sphere>
+              <radius>0.32</radius>
+            </sphere>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_35_leaf_00">
+          <pose>-46.437 -12.749 10.468 0 -0.177 0.128</pose>
+          <geometry>
+            <box>
+              <size>2.77 0.22 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_35_leaf_01">
+          <pose>-46.848 -12.356 10.226 0 0.082 0.696</pose>
+          <geometry>
+            <box>
+              <size>2.17 0.22 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_35_leaf_02">
+          <pose>-47.435 -11.758 10.519 0 -0.198 1.531</pose>
+          <geometry>
+            <box>
+              <size>2.96 0.20 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_35_leaf_03">
+          <pose>-48.289 -11.976 10.476 0 0.211 2.299</pose>
+          <geometry>
+            <box>
+              <size>3.20 0.22 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_35_leaf_04">
+          <pose>-48.270 -12.961 10.535 0 0.020 3.239</pose>
+          <geometry>
+            <box>
+              <size>2.09 0.24 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_35_leaf_05">
+          <pose>-48.092 -13.566 10.603 0 0.134 3.981</pose>
+          <geometry>
+            <box>
+              <size>2.41 0.23 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_35_leaf_06">
+          <pose>-47.594 -14.079 10.669 0 -0.217 4.617</pose>
+          <geometry>
+            <box>
+              <size>3.16 0.19 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_35_leaf_07">
+          <pose>-46.963 -13.533 10.375 0 0.176 5.385</pose>
+          <geometry>
+            <box>
+              <size>2.18 0.17 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_36_trunk">
+          <pose>-28.898 41.940 4.717 0 0 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.208</radius>
+              <length>5.855</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.34 0.19 0.09 1</ambient>
+            <diffuse>0.34 0.19 0.09 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_36_crown">
+          <pose>-28.898 41.940 7.794 0 0 0</pose>
+          <geometry>
+            <sphere>
+              <radius>0.32</radius>
+            </sphere>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_36_leaf_00">
+          <pose>-27.851 41.861 7.457 0 -0.068 -0.075</pose>
+          <geometry>
+            <box>
+              <size>2.76 0.20 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_36_leaf_01">
+          <pose>-28.206 42.646 7.865 0 -0.157 0.795</pose>
+          <geometry>
+            <box>
+              <size>2.60 0.17 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_36_leaf_02">
+          <pose>-28.950 43.027 7.816 0 0.088 1.618</pose>
+          <geometry>
+            <box>
+              <size>2.86 0.21 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_36_leaf_03">
+          <pose>-29.495 42.430 7.715 0 0.096 2.454</pose>
+          <geometry>
+            <box>
+              <size>2.03 0.16 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_36_leaf_04">
+          <pose>-30.007 41.889 7.714 0 0.049 3.187</pose>
+          <geometry>
+            <box>
+              <size>2.92 0.19 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_36_leaf_05">
+          <pose>-29.504 41.285 7.636 0 0.233 3.965</pose>
+          <geometry>
+            <box>
+              <size>2.35 0.24 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_36_leaf_06">
+          <pose>-28.848 41.045 7.424 0 0.014 4.768</pose>
+          <geometry>
+            <box>
+              <size>2.36 0.17 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_36_leaf_07">
+          <pose>-28.298 41.334 7.551 0 0.181 5.493</pose>
+          <geometry>
+            <box>
+              <size>2.24 0.21 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_37_trunk">
+          <pose>-4.770 -47.890 5.920 0 0 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.150</radius>
+              <length>6.058</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.34 0.19 0.09 1</ambient>
+            <diffuse>0.34 0.19 0.09 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_37_crown">
+          <pose>-4.770 -47.890 9.099 0 0 0</pose>
+          <geometry>
+            <sphere>
+              <radius>0.32</radius>
+            </sphere>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_37_leaf_00">
+          <pose>-3.755 -47.930 8.932 0 -0.090 -0.039</pose>
+          <geometry>
+            <box>
+              <size>2.67 0.19 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_37_leaf_01">
+          <pose>-4.160 -47.366 8.891 0 0.119 0.710</pose>
+          <geometry>
+            <box>
+              <size>2.12 0.18 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_37_leaf_02">
+          <pose>-4.683 -46.739 8.863 0 0.097 1.495</pose>
+          <geometry>
+            <box>
+              <size>3.04 0.17 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_37_leaf_03">
+          <pose>-5.508 -47.064 8.957 0 0.049 2.300</pose>
+          <geometry>
+            <box>
+              <size>2.92 0.20 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_37_leaf_04">
+          <pose>-5.539 -47.846 8.952 0 0.330 3.084</pose>
+          <geometry>
+            <box>
+              <size>2.03 0.24 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_37_leaf_05">
+          <pose>-5.474 -48.483 8.947 0 0.279 3.842</pose>
+          <geometry>
+            <box>
+              <size>2.42 0.16 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_37_leaf_06">
+          <pose>-4.725 -48.864 9.123 0 0.009 4.759</pose>
+          <geometry>
+            <box>
+              <size>2.56 0.20 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_37_leaf_07">
+          <pose>-3.915 -48.569 8.882 0 -0.010 5.613</pose>
+          <geometry>
+            <box>
+              <size>2.87 0.22 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_38_trunk">
+          <pose>-22.433 -10.605 5.021 0 0 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.146</radius>
+              <length>4.994</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.34 0.19 0.09 1</ambient>
+            <diffuse>0.34 0.19 0.09 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_38_crown">
+          <pose>-22.433 -10.605 7.668 0 0 0</pose>
+          <geometry>
+            <sphere>
+              <radius>0.32</radius>
+            </sphere>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_38_leaf_00">
+          <pose>-21.324 -10.603 7.763 0 0.158 0.001</pose>
+          <geometry>
+            <box>
+              <size>2.92 0.18 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_38_leaf_01">
+          <pose>-21.489 -9.856 7.666 0 -0.047 0.671</pose>
+          <geometry>
+            <box>
+              <size>3.17 0.19 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_38_leaf_02">
+          <pose>-22.578 -9.510 7.523 0 0.050 1.702</pose>
+          <geometry>
+            <box>
+              <size>2.91 0.18 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_38_leaf_03">
+          <pose>-22.930 -9.949 7.505 0 0.024 2.220</pose>
+          <geometry>
+            <box>
+              <size>2.16 0.19 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_38_leaf_04">
+          <pose>-23.427 -10.636 7.575 0 -0.152 3.173</pose>
+          <geometry>
+            <box>
+              <size>2.62 0.19 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_38_leaf_05">
+          <pose>-23.086 -11.486 7.437 0 0.247 4.074</pose>
+          <geometry>
+            <box>
+              <size>2.89 0.18 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_38_leaf_06">
+          <pose>-22.422 -11.688 7.676 0 -0.029 4.722</pose>
+          <geometry>
+            <box>
+              <size>2.85 0.18 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_38_leaf_07">
+          <pose>-21.536 -11.412 7.667 0 0.185 5.550</pose>
+          <geometry>
+            <box>
+              <size>3.18 0.21 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_39_trunk">
+          <pose>-7.185 -17.516 3.570 0 0 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.217</radius>
+              <length>4.796</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.34 0.19 0.09 1</ambient>
+            <diffuse>0.34 0.19 0.09 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_39_crown">
+          <pose>-7.185 -17.516 6.118 0 0 0</pose>
+          <geometry>
+            <sphere>
+              <radius>0.32</radius>
+            </sphere>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_39_leaf_00">
+          <pose>-6.076 -17.422 6.079 0 0.100 0.085</pose>
+          <geometry>
+            <box>
+              <size>2.93 0.21 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_39_leaf_01">
+          <pose>-6.376 -16.853 6.139 0 -0.161 0.687</pose>
+          <geometry>
+            <box>
+              <size>2.75 0.21 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_39_leaf_02">
+          <pose>-7.227 -16.743 5.773 0 -0.239 1.625</pose>
+          <geometry>
+            <box>
+              <size>2.04 0.24 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_39_leaf_03">
+          <pose>-7.738 -16.898 5.923 0 0.215 2.300</pose>
+          <geometry>
+            <box>
+              <size>2.18 0.22 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_39_leaf_04">
+          <pose>-8.334 -17.662 5.749 0 -0.167 3.268</pose>
+          <geometry>
+            <box>
+              <size>3.05 0.22 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_39_leaf_05">
+          <pose>-7.881 -18.100 5.981 0 -0.062 3.839</pose>
+          <geometry>
+            <box>
+              <size>2.39 0.21 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_39_leaf_06">
+          <pose>-7.301 -18.686 5.895 0 0.213 4.614</pose>
+          <geometry>
+            <box>
+              <size>3.09 0.19 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_39_leaf_07">
+          <pose>-6.393 -18.210 6.023 0 -0.135 5.564</pose>
+          <geometry>
+            <box>
+              <size>2.77 0.22 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_40_trunk">
+          <pose>0.821 37.524 6.292 0 0 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.218</radius>
+              <length>4.167</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.34 0.19 0.09 1</ambient>
+            <diffuse>0.34 0.19 0.09 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_40_crown">
+          <pose>0.821 37.524 8.525 0 0 0</pose>
+          <geometry>
+            <sphere>
+              <radius>0.32</radius>
+            </sphere>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_40_leaf_00">
+          <pose>1.711 37.470 8.478 0 -0.060 -0.061</pose>
+          <geometry>
+            <box>
+              <size>2.35 0.18 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_40_leaf_01">
+          <pose>1.696 38.324 8.262 0 -0.177 0.740</pose>
+          <geometry>
+            <box>
+              <size>3.12 0.22 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_40_leaf_02">
+          <pose>0.771 38.456 8.534 0 0.323 1.624</pose>
+          <geometry>
+            <box>
+              <size>2.46 0.24 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_40_leaf_03">
+          <pose>0.135 38.095 8.482 0 -0.042 2.448</pose>
+          <geometry>
+            <box>
+              <size>2.35 0.18 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_40_leaf_04">
+          <pose>-0.056 37.539 8.226 0 0.073 3.124</pose>
+          <geometry>
+            <box>
+              <size>2.31 0.20 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_40_leaf_05">
+          <pose>0.164 36.670 8.433 0 0.102 4.057</pose>
+          <geometry>
+            <box>
+              <size>2.84 0.17 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_40_leaf_06">
+          <pose>0.739 36.462 8.444 0 -0.219 4.635</pose>
+          <geometry>
+            <box>
+              <size>2.80 0.20 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_40_leaf_07">
+          <pose>1.569 36.736 8.511 0 -0.247 5.472</pose>
+          <geometry>
+            <box>
+              <size>2.86 0.17 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_41_trunk">
+          <pose>-48.011 -15.717 6.793 0 0 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.215</radius>
+              <length>4.625</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.34 0.19 0.09 1</ambient>
+            <diffuse>0.34 0.19 0.09 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_41_crown">
+          <pose>-48.011 -15.717 9.256 0 0 0</pose>
+          <geometry>
+            <sphere>
+              <radius>0.32</radius>
+            </sphere>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_41_leaf_00">
+          <pose>-47.040 -15.607 9.338 0 -0.057 0.114</pose>
+          <geometry>
+            <box>
+              <size>2.57 0.18 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_41_leaf_01">
+          <pose>-47.218 -14.852 9.143 0 0.071 0.829</pose>
+          <geometry>
+            <box>
+              <size>3.09 0.17 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_41_leaf_02">
+          <pose>-48.091 -14.533 8.943 0 0.279 1.638</pose>
+          <geometry>
+            <box>
+              <size>3.12 0.23 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_41_leaf_03">
+          <pose>-48.760 -14.806 9.054 0 0.047 2.259</pose>
+          <geometry>
+            <box>
+              <size>3.10 0.24 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_41_leaf_04">
+          <pose>-49.200 -15.874 9.294 0 -0.244 3.273</pose>
+          <geometry>
+            <box>
+              <size>3.15 0.23 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_41_leaf_05">
+          <pose>-48.571 -16.301 8.998 0 0.343 3.947</pose>
+          <geometry>
+            <box>
+              <size>2.13 0.24 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_41_leaf_06">
+          <pose>-47.998 -16.703 9.281 0 0.031 4.725</pose>
+          <geometry>
+            <box>
+              <size>2.59 0.24 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="palm_41_leaf_07">
+          <pose>-47.493 -16.342 9.085 0 -0.096 5.406</pose>
+          <geometry>
+            <box>
+              <size>2.14 0.17 0.08</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.10 0.34 0.10 1</ambient>
+            <diffuse>0.10 0.34 0.10 1</diffuse>
+          </material>
+        </visual>
+        <visual name="pad_H_left">
+          <pose>44.0 0.0 1.89 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>0.24 3.0 0.02</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>1 1 1 1</ambient>
+            <diffuse>1 1 1 1</diffuse>
+          </material>
+        </visual>
+        <visual name="pad_H_right">
+          <pose>46.0 0.0 1.89 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>0.24 3.0 0.02</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>1 1 1 1</ambient>
+            <diffuse>1 1 1 1</diffuse>
+          </material>
+        </visual>
+        <visual name="pad_H_crossbar">
+          <pose>45.0 0.0 1.89 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>0.24 0.24 0.02</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>1 1 1 1</ambient>
+            <diffuse>1 1 1 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+  
+    <plugin filename="gz-sim-contact-system" name="gz::sim::systems::Contact"/>
+    <plugin filename="gz-sim-imu-system" name="gz::sim::systems::Imu"/>
+    <plugin filename="gz-sim-air-pressure-system" name="gz::sim::systems::AirPressure"/>
+    <plugin filename="gz-sim-air-speed-system" name="gz::sim::systems::AirSpeed"/>
+    <plugin filename="gz-sim-apply-link-wrench-system" name="gz::sim::systems::ApplyLinkWrench"/>
+    <plugin filename="gz-sim-navsat-system" name="gz::sim::systems::NavSat"/>
+    <plugin filename="gz-sim-magnetometer-system" name="gz::sim::systems::Magnetometer"/>
+    <plugin filename="libOpticalFlowSystem.so" name="custom::OpticalFlowSystem"/>
+    <plugin filename="libGstCameraSystem.so" name="custom::GstCameraSystem"/>
+</world>
+</sdf>
