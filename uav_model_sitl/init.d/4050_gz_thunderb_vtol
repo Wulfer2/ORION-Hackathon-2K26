@@ -1,0 +1,144 @@
+#!/bin/sh
+#
+# @name ThunderB-class VTOL (scaled from Standard VTOL)
+#
+# @type Standard VTOL
+#
+# First-pass values for a ~40 kg MTOW (35 kg airframe + 5 kg payload), 4 m span quadplane.
+# Estimates, not BlueBird data. Keep SIM_GZ_EC_MAX* equal to maxRotVelocity in model.sdf
+# and CA_ROTOR* equal to the rotor positions in model.sdf.
+#
+
+. ${R}etc/init.d/rc.vtol_defaults
+
+PX4_SIMULATOR=${PX4_SIMULATOR:=gz}
+PX4_GZ_WORLD=${PX4_GZ_WORLD:=default}
+PX4_SIM_MODEL=${PX4_SIM_MODEL:=thunderb_vtol}
+
+param set-default SIM_GZ_EN 1
+
+param set-default SENS_EN_ARSPDSIM 1
+
+# TODO: Enable motor failure detection when the
+# VTOL no longer reports 0A for all ESCs in SITL
+param set-default FD_ACT_EN 0
+param set-default FD_ACT_MOT_TOUT 500
+
+param set-default CA_AIRFRAME 2
+
+param set-default COM_PREARM_MODE 2
+
+# Rotor geometry (PX4 FRD: PX forward, PY right). Matches rotor_0..3 and rotor_puller in model.sdf.
+# rotor_0 front-right, rotor_1 rear-left, rotor_2 front-left, rotor_3 rear-right
+param set-default CA_ROTOR_COUNT 5
+param set-default CA_ROTOR0_PX 0.5
+param set-default CA_ROTOR0_PY 0.8
+param set-default CA_ROTOR0_KM 0.04
+param set-default CA_ROTOR1_PX -0.5
+param set-default CA_ROTOR1_PY -0.8
+param set-default CA_ROTOR1_KM 0.04
+param set-default CA_ROTOR2_PX 0.5
+param set-default CA_ROTOR2_PY -0.8
+param set-default CA_ROTOR2_KM -0.04
+param set-default CA_ROTOR3_PX -0.5
+param set-default CA_ROTOR3_PY 0.8
+param set-default CA_ROTOR3_KM -0.04
+param set-default CA_ROTOR4_AX 1
+param set-default CA_ROTOR4_AZ 0
+param set-default CA_ROTOR4_PX -0.6
+
+# Max rotor speeds in rad/s, must equal maxRotVelocity in model.sdf
+# (lift motors 700, pusher 900)
+param set-default SIM_GZ_EC_FUNC1 101
+param set-default SIM_GZ_EC_MIN1 10
+param set-default SIM_GZ_EC_MAX1 700
+param set-default SIM_GZ_EC_FUNC2 102
+param set-default SIM_GZ_EC_MIN2 10
+param set-default SIM_GZ_EC_MAX2 700
+param set-default SIM_GZ_EC_FUNC3 103
+param set-default SIM_GZ_EC_MIN3 10
+param set-default SIM_GZ_EC_MAX3 700
+param set-default SIM_GZ_EC_FUNC4 104
+param set-default SIM_GZ_EC_MIN4 10
+param set-default SIM_GZ_EC_MAX4 700
+
+param set-default SIM_GZ_EC_FUNC5 105
+param set-default SIM_GZ_EC_MIN5 0
+param set-default SIM_GZ_EC_MAX5 900
+
+param set-default SIM_GZ_SV_FUNC1 201
+param set-default SIM_GZ_SV_FUNC2 202
+param set-default SIM_GZ_SV_FUNC3 203
+
+param set-default COM_RC_IN_MODE 1
+
+param set-default CA_SV_CS_COUNT 3
+param set-default CA_SV_CS0_TYPE 1
+param set-default CA_SV_CS0_TRQ_R -0.5
+param set-default CA_SV_CS1_TYPE 2
+param set-default CA_SV_CS1_TRQ_R 0.5
+param set-default CA_SV_CS2_TYPE 3
+param set-default CA_SV_CS2_TRQ_P 1
+
+# Fixed-wing: stall is about 17.5 m/s (S = 1.6 m2, CLmax 1.3, 40 kg)
+param set-default FW_AIRSPD_MIN 21
+param set-default FW_AIRSPD_TRIM 25
+param set-default FW_AIRSPD_MAX 33
+
+param set-default NPFG_PERIOD 12
+param set-default FW_PR_FF 0.2
+param set-default FW_PR_P 0.4
+param set-default FW_PSP_OFF 2
+param set-default FW_P_LIM_MIN -15
+param set-default FW_RR_FF 0.1
+param set-default FW_RR_P 0.3
+# Pusher is ~97 N max vs ~40 N cruise drag; thrust is quadratic in command, so trim is ~0.65
+param set-default FW_THR_TRIM 0.65
+param set-default FW_THR_MAX 0.95
+param set-default FW_THR_MIN 0.05
+# Excess power gives only ~3.5 m/s climb at full thrust, so the stock 8 m/s is unreachable
+param set-default FW_T_CLMB_MAX 3
+param set-default FW_T_SINK_MAX 2.7
+param set-default FW_T_SINK_MIN 2.2
+
+# Multicopter: larger inertia, start with lower rate gains and tune up
+param set-default MC_AIRMODE 1
+param set-default MC_ROLLRATE_P 0.15
+param set-default MC_PITCHRATE_P 0.15
+param set-default MC_YAW_P 1.6
+
+# Hover thrust fraction is ~0.6 (thrust-to-weight about 1.7); confirm from hover logs
+param set-default MPC_THR_HOVER 0.6
+# Sim thrust is quadratic in command. Uncomment if THR_MDL_FAC exists in your PX4 version:
+# param set-default THR_MDL_FAC 1
+
+param set-default MIS_TAKEOFF_ALT 10
+
+param set-default MPC_XY_P 0.8
+param set-default MPC_XY_VEL_P_ACC 3
+param set-default MPC_XY_VEL_I_ACC 4
+param set-default MPC_XY_VEL_D_ACC 0.1
+
+param set-default NAV_ACC_RAD 5
+param set-default NAV_DLL_ACT 2
+
+# Transition: must be above FW_AIRSPD_MIN; pusher at 1.0 gives ~1.4 m/s2, so expect ~16 s to reach it
+param set-default VT_ARSP_TRANS 23
+param set-default VT_FWD_THRUST_EN 4
+param set-default VT_PITCH_MIN -5
+param set-default VT_F_TRANS_THR 1
+param set-default VT_TYPE 2
+
+# --- VARUNA HOVER TUNING (flight-tested in Gazebo, Oct 2026) ---
+# Stable hover achieved with these values. They override earlier defaults above.
+param set-default FD_ESCS_EN 0
+param set-default NAV_DLL_ACT 0
+param set-default MC_ROLLRATE_P 0.5
+param set-default MC_PITCHRATE_P 0.3
+param set-default MC_ROLL_P 3
+param set-default MC_PITCH_P 3
+param set-default MPC_THR_HOVER 0.75
+# Outer loops slowed so they stay well below the attitude loop bandwidth
+param set-default MPC_XY_VEL_P_ACC 1.0
+param set-default MPC_XY_VEL_I_ACC 0.5
+param set-default MPC_XY_P 0.4
